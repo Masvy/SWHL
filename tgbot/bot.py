@@ -4,7 +4,9 @@ import asyncio
 from environs import Env
 import betterlogging as bl
 from aiogram import Bot, Dispatcher
-from aiogram.fsm.storage.redis import RedisStorage
+from aiogram.fsm.storage.redis import RedisStorage, DefaultKeyBuilder
+
+from handlers import start
 
 
 def setup_logging():
@@ -32,6 +34,8 @@ async def main():
     bot: Bot = Bot(token=env('BOT_TOKEN'),
                    parse_mode='HTML')
     dp: Dispatcher = Dispatcher(storage=storage)
+
+    dp.include_router(start.start_router)
 
     await bot.delete_webhook(drop_pending_updates=True)
 
