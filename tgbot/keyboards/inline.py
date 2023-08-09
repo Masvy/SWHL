@@ -6,3 +6,18 @@ partners_k: InlineKeyboardMarkup = InlineKeyboardMarkup(
                               url='https://silkwayrally.com/')]
     ]
 )
+
+our_links: InlineKeyboardMarkup = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton(text='SWHL',
+                              url='https://swhl.ru/')],
+        [
+            InlineKeyboardButton(text='Наш ВК',
+                                 url='https://vk.com/hockey_rthl'),
+            InlineKeyboardButton(text='Наш YouTube-канал',
+                                 url='https://www.youtube.com/c/RTHLTV'),
+            InlineKeyboardButton(text='Наш Telegram-канал',
+                                 url='https://t.me/swhleague')
+        ]
+    ]
+)
