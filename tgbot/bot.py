@@ -7,6 +7,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.redis import RedisStorage, DefaultKeyBuilder
 
 from handlers import start
+from keyboards.set_menu import set_main_menu
 
 
 def setup_logging():
@@ -34,6 +35,8 @@ async def main():
     bot: Bot = Bot(token=env('BOT_TOKEN'),
                    parse_mode='HTML')
     dp: Dispatcher = Dispatcher(storage=storage)
+
+    await set_main_menu(bot)
 
     dp.include_router(start.start_router)
 
