@@ -6,7 +6,7 @@ import betterlogging as bl
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.redis import RedisStorage, DefaultKeyBuilder
 
-from handlers import start
+from handlers import start, new_player
 from keyboards.set_menu import set_main_menu
 
 
@@ -39,6 +39,7 @@ async def main():
     await set_main_menu(bot)
 
     dp.include_router(start.start_router)
+    dp.include_router(new_player.player_router)
 
     await bot.delete_webhook(drop_pending_updates=True)
 
