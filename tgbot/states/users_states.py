@@ -7,3 +7,11 @@ class NewPlayer(StatesGroup):
     growth = State()
     stick_grip = State()
     photo = State()
+
+
+class NewCommand(StatesGroup):
+    name = State()
+    foundation = State()
+    arena = State()
+    contact = State()
+    number = State()
