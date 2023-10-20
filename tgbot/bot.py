@@ -7,9 +7,9 @@ from sqlalchemy import URL
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.redis import RedisStorage, DefaultKeyBuilder
 
+from handlers import routers_list
 from database.create_table import BaseModel
 from keyboards.set_menu import set_main_menu
-from handlers import start, new_player, new_command
 from database.engine import proceed_schemas, create_async_engine, \
     get_session_maker
 
@@ -42,9 +42,7 @@ async def main():
 
     await set_main_menu(bot)
 
-    dp.include_router(start.start_router)
-    dp.include_router(new_player.player_router)
-    dp.include_router(new_command.command_router)
+    dp.include_routers(*routers_list)
 
     postgres_url = URL.create(
         'postgresql+asyncpg',
