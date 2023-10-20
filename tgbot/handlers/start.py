@@ -52,20 +52,6 @@ async def show_offer_participate(message: Message):
     await message.answer(text=BASIC_COMMANDS['offer_participate'])
 
 
-@start_router.message(Command(commands='location'))
-async def show_location(message: Message):
-    picture_1 = InputMediaPhoto(type='photo',
-                                media=FSInputFile('tgbot/pictures/комплекс.png'))
-    picture_2 = InputMediaPhoto(type='photo',
-                                media=FSInputFile('tgbot/pictures/преимущества.png'))
-    media = [picture_1, picture_2]
-    await message.answer(text=BASIC_COMMANDS['our_address'])
-    await message.answer_location(latitude=55.79849300356317,
-                                  longitude=37.60864468694828)
-    await message.answer(text=BASIC_COMMANDS['our_arena'])
-    await message.answer_media_group(media=media)
-
-
 @start_router.message(Command(commands='stickers'))
 async def send_stickers(message: Message):
     await message.answer(text=BASIC_COMMANDS['take_stickers'],
