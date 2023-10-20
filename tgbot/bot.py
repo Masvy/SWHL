@@ -3,11 +3,15 @@ import asyncio
 
 from environs import Env
 import betterlogging as bl
+from sqlalchemy import URL
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.redis import RedisStorage, DefaultKeyBuilder
 
-from handlers import start, new_player
+from database.create_table import BaseModel
 from keyboards.set_menu import set_main_menu
+from handlers import start, new_player, new_command
+from database.engine import proceed_schemas, create_async_engine, \
+    get_session_maker
 
 
 def setup_logging():
@@ -40,10 +44,25 @@ async def main():
 
     dp.include_router(start.start_router)
     dp.include_router(new_player.player_router)
+    dp.include_router(new_command.command_router)
+
+    postgres_url = URL.create(
+        'postgresql+asyncpg',
+        username=env('PGUSER'),
+        password=env('PGPASSWORD'),
+        database=env('DB_NAME'),
+        host='localhost',
+        port='5432'
+    )
+
+    async_engine = create_async_engine(postgres_url)
+    session_maker = get_session_maker(async_engine)
+
+    await proceed_schemas(async_engine, BaseModel.metadata)
 
     await bot.delete_webhook(drop_pending_updates=True)
 
-    await dp.start_polling(bot)
+    await dp.start_polling(bot, session_maker=session_maker)
 
 
 if __name__ == '__main__':
