@@ -29,3 +29,25 @@ stickers_kb: InlineKeyboardMarkup = InlineKeyboardMarkup(
                               url='https://t.me/addstickers/swhlStickers')]
     ]
 )
+
+players_kb: InlineKeyboardMarkup = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [
+            InlineKeyboardButton(text='✅',
+                                 callback_data='right'),
+            InlineKeyboardButton(text='❌',
+                                 callback_data='wrong')
+        ]
+    ]
+)
+
+commands_kb: InlineKeyboardMarkup = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [
+            InlineKeyboardButton(text='✅',
+                                 callback_data='right_1'),
+            InlineKeyboardButton(text='❌',
+                                 callback_data='wrong_1')
+        ]
+    ]
+)
