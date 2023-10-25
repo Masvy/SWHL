@@ -76,7 +76,6 @@ async def save_photo(message: Message,
                      state: FSMContext):
     await state.update_data(photo=message.photo[-1].file_id)
     data = await state.get_data()
-    print(len(data["photo"]))
     await message.answer(text=f'ФИО: {data["full_name"]}\nДата '
                          f'рождения: {data["birthday"]}\nХват '
                          f'клюшки: {data["stick_grip"]}\n\n'
@@ -90,12 +89,12 @@ async def save_data(callback: CallbackQuery,
                     session_maker: sessionmaker):
     data = await state.get_data()
     await add_user_id(session_maker, callback.from_user.id)
-    await add_name(session_maker, callback.from_user.id, data["full_name"])
-    await add_birthday(session_maker, callback.from_user.id, data["birthday"])
+    await add_name(session_maker, callback.from_user.id, data['full_name'])
+    await add_birthday(session_maker, callback.from_user.id, data['birthday'])
     await add_stick_grip(session_maker, callback.from_user.id,
-                         data["stick_grip"])
-    await add_photo(session_maker, callback.from_user.id, data["photo"])
-    await callback.message.edit_text('Данные сохраннены')
+                         data['stick_grip'])
+    await add_photo(session_maker, callback.from_user.id, data['photo'])
+    await callback.message.edit_text(text=NEW_PLAYER['data_saved'])
     await state.clear()
 
 
