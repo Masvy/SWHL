@@ -1,3 +1,5 @@
+import datetime
+
 from aiogram import Router
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, FSInputFile, InputMediaPhoto
@@ -56,3 +58,11 @@ async def show_offer_participate(message: Message):
 async def send_stickers(message: Message):
     await message.answer(text=BASIC_COMMANDS['take_stickers'],
                          reply_markup=stickers_kb)
+
+
+@start_router.message(Command(commands='countdown'))
+async def count_time(message: Message):
+    date = datetime.datetime(2024, 4, 28) - datetime.datetime.now()
+    await message.answer(f'Конец сезона 2024/2025 через {date.days} дней, '
+                         f'{date.seconds // 3600} часов,'
+                         f'{(date.seconds // 60) % 60} минут.')
