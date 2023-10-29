@@ -12,6 +12,7 @@ from database.create_table import BaseModel
 from keyboards.set_menu import set_main_menu
 from database.engine import proceed_schemas, create_async_engine, \
     get_session_maker
+from utils.statistics import subprocess
 
 
 def setup_logging():
@@ -61,6 +62,8 @@ async def main():
     await bot.delete_webhook(drop_pending_updates=True)
 
     await dp.start_polling(bot, session_maker=session_maker)
+
+    subprocess
 
 
 if __name__ == '__main__':
