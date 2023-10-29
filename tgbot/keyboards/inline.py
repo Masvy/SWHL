@@ -51,3 +51,41 @@ commands_kb: InlineKeyboardMarkup = InlineKeyboardMarkup(
         ]
     ]
 )
+
+statistics_kb: InlineKeyboardMarkup = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [
+            InlineKeyboardButton(text='СНАЙПЕРЫ',
+                                 callback_data='sniper_pressed'),
+            InlineKeyboardButton(text='АССИСТЕНТЫ',
+                                 callback_data='assists_pressed')
+        ],
+        [
+            InlineKeyboardButton(text='МОМБАРДИРЫ',
+                                 callback_data='goalpas_pressed'),
+            InlineKeyboardButton(text='ШТРАФЫ',
+                                 callback_data='penalties_pressed')
+        ],
+        [
+            InlineKeyboardButton(text='ЛУЧШИЕ',
+                                 callback_data='best_pressed'),
+            InlineKeyboardButton(text='ВРАТАРИ',
+                                 callback_data='goalkeepers_pressed')
+        ],
+        [
+            InlineKeyboardButton(text='СБОРНАЯ',
+                                 callback_data='saltworts_pressed'),
+            InlineKeyboardButton(text='КОМАНДЫ',
+                                 callback_data='teams_pressed')
+        ]
+    ]
+)
+
+admin_kb: InlineKeyboardMarkup = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton(text='Просмотреть новых игроков',
+                              callback_data='view_players')],
+        [InlineKeyboardButton(text='Просмотреть новые команды',
+                              callback_data='views_commands')]
+    ]
+)
