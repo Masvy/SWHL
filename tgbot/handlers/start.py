@@ -1,11 +1,16 @@
+import aiohttp
 import datetime
 
-from aiogram import Router
+from aiogram import Router, F
 from aiogram.filters import CommandStart, Command
-from aiogram.types import Message, FSInputFile, InputMediaPhoto
+from aiogram.types import Message, FSInputFile, InputMediaPhoto, \
+    CallbackQuery
 
+from utils.comm_scraping import commands, urls
+from utils.schedule import schedule_date, schedule_time, schedule_team
 from lexicon.users_lexicon import BASIC_COMMANDS
-from keyboards.inline import partners_kb, our_links_kb, stickers_kb
+from keyboards.inline import partners_kb, our_links_kb, stickers_kb, \
+    statistics_kb
 
 start_router: Router = Router()
 
@@ -66,3 +71,92 @@ async def count_time(message: Message):
     await message.answer(f'Конец сезона 2024/2025 через {date.days} дней, '
                          f'{date.seconds // 3600} часов,'
                          f'{(date.seconds // 60) % 60} минут.')
+
+
+@start_router.message(Command(commands='commands'))
+async def show_commands(message: Message):
+    async with aiohttp.ClientSession() as session:
+        url = 'https://swhl.ru/tournament/1033299/tables'
+        commands_list = await commands(url, session)
+        url_list = await urls(url, session)
+        html_commands = []
+        for command, link in zip(commands_list[:8], url_list[:8]):
+            html_commands.append(f'<a href="{link}">{command}</a>')
+        html_message = '\n\n'.join(html_commands)
+        await message.answer(f'Наши команды:\n{html_message}')
+
+
+@start_router.message(Command(commands='player_statistics'))
+async def show_statistics(message: Message):
+    await message.answer('Веберите категорию:',
+                         reply_markup=statistics_kb)
+
+
+@start_router.callback_query(F.data == 'sniper_pressed')
+async def show_sniper(callback: CallbackQuery):
+    photo = FSInputFile(
+        '/home/nikita/Рабочий стол/SWHL/tgbot/pictures/sniper.png')
+    await callback.message.answer_photo(photo)
+
+
+@start_router.callback_query(F.data == 'assists_pressed')
+async def show_assists(callback: CallbackQuery):
+    photo = FSInputFile(
+        '/home/nikita/Рабочий стол/SWHL/tgbot/pictures/assists.png')
+    await callback.message.answer_photo(photo)
+
+
+@start_router.callback_query(F.data == 'goalpas_pressed')
+async def show_goalpas(callback: CallbackQuery):
+    photo = FSInputFile(
+        '/home/nikita/Рабочий стол/SWHL/tgbot/pictures/goalpas.png')
+    await callback.message.answer_photo(photo)
+
+
+@start_router.callback_query(F.data == 'penalties_pressed')
+async def show_penalties(callback: CallbackQuery):
+    photo = FSInputFile(
+        '/home/nikita/Рабочий стол/SWHL/tgbot/pictures/penalties.png')
+    await callback.message.answer_photo(photo)
+
+
+@start_router.callback_query(F.data == 'best_pressed')
+async def show_best(callback: CallbackQuery):
+    photo = FSInputFile(
+        '/home/nikita/Рабочий стол/SWHL/tgbot/pictures/best.png')
+    await callback.message.answer_photo(photo)
+
+
+@start_router.callback_query(F.data == 'goalkeepers_pressed')
+async def show_goalkeepers(callback: CallbackQuery):
+    photo = FSInputFile(
+        '/home/nikita/Рабочий стол/SWHL/tgbot/pictures/goalkeepers.png')
+    await callback.message.answer_photo(photo)
+
+
+@start_router.callback_query(F.data == 'saltworts_pressed')
+async def show_saltworts(callback: CallbackQuery):
+    photo = FSInputFile(
+        '/home/nikita/Рабочий стол/SWHL/tgbot/pictures/saltworts.png')
+    await callback.message.answer_photo(photo)
+
+
+@start_router.callback_query(F.data == 'teams_pressed')
+async def show_teams(callback: CallbackQuery):
+    photo = FSInputFile(
+        '/home/nikita/Рабочий стол/SWHL/tgbot/pictures/teams.png')
+    await callback.message.answer_photo(photo)
+
+
+# @start_router.message(Command(commands='schedule'))
+# async def show_schedule(message: Message):
+#     async with aiohttp.ClientSession() as session:
+#         url = 'https://swhl.ru/tournament/1033299/calendar?type=dates'
+#         date_list = await schedule_date(url, session)
+#         time_list = await schedule_time(url, session)
+#         team_list = await schedule_team(url, session)
+#         for date in date_list:
+#             time = '\n'.join(time_list)
+#             team_1 = '\n'.join(team_list[0])
+#             team_2 = '\n'.join(team_list[1])
+#             await message.answer(f'{date}\n{time} - {team_1[0]} vs {team_2[0]}')
