@@ -27,11 +27,11 @@ class NewCommand(BaseModel):
 
     user_id = Column(BigInteger, unique=False, nullable=True)
 
-    name = Column(VARCHAR(20), unique=False, nullable=True)
+    name = Column(VARCHAR(50), unique=False, nullable=True)
 
     foundation = Column(VARCHAR(11), unique=False, nullable=True)
 
-    arena = Column(VARCHAR(20), unique=False, nullable=True)
+    arena = Column(VARCHAR(35), unique=False, nullable=True)
 
     contact = Column(VARCHAR(50), unique=False, nullable=True)
 

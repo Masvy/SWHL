@@ -1,9 +1,16 @@
+from aiogram.filters.callback_data import CallbackData
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 partners_kb: InlineKeyboardMarkup = InlineKeyboardMarkup(
     inline_keyboard=[
-        [InlineKeyboardButton(text='SILK WAY RALLY',
-                              url='https://silkwayrally.com/')]
+        [
+            InlineKeyboardButton(text='SILK WAY RALLY',
+                                 url='https://silkwayrally.com/')
+        ],
+        [
+            InlineKeyboardButton(text='WEB LIFE',
+                                 url='https://web-life.ru/')
+        ]
     ]
 )
 
@@ -89,3 +96,21 @@ admin_kb: InlineKeyboardMarkup = InlineKeyboardMarkup(
                               callback_data='views_commands')]
     ]
 )
+
+
+class MyCallbackFactory(CallbackData, prefix='any'):
+    user_id: int
+    subcategory: int
+
+
+def remove_player(user_id):
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text='Удалить',
+                                     callback_data=MyCallbackFactory(
+                                         user_id=user_id,
+                                         subcategory=1).pack())
+            ]
+        ]
+    )

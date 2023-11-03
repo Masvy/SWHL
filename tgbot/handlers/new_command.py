@@ -27,11 +27,17 @@ async def start_new_command(update: types.Update, state: FSMContext):
         await state.set_state(NewCommand.name)
 
 
-@command_router.message(StateFilter(NewCommand.name))
+@command_router.message(StateFilter(NewCommand.name),
+                        lambda x: len(x.text) <= 50)
 async def save_name(message: Message, state: FSMContext):
     await message.answer(text=NEW_COMMAND['foundation'])
     await state.update_data(name=message.text)
     await state.set_state(NewCommand.foundation)
+
+
+@command_router.message(StateFilter(NewCommand.name))
+async def wrong_name(message: Message):
+    await message.answer(text=NEW_COMMAND['wrong_name'])
 
 
 @command_router.message(StateFilter(NewCommand.foundation),
@@ -47,17 +53,23 @@ async def wrong_foundation(message: Message):
     await message.answer(text=NEW_COMMAND['wrong_foundation'])
 
 
-@command_router.message(StateFilter(NewCommand.arena))
+@command_router.message(StateFilter(NewCommand.arena),
+                        lambda x: len(x.text) <= 35)
 async def save_arena(message: Message, state: FSMContext):
     await message.answer(text=NEW_COMMAND['contact'])
     await state.update_data(arena=message.text)
     await state.set_state(NewCommand.contact)
 
 
+@command_router.message(StateFilter(NewCommand.arena))
+async def wrong_arena(message: Message):
+    await message.answer(text=NEW_COMMAND['wrong_arena'])
+
+
 @command_router.message(StateFilter(NewCommand.contact),
                         and_f(lambda x: x.text.replace(' ', 'a').isalpha(),
                         lambda x: x.text.count(' ') == 1 or
-                        x.text.count(' ') == 2))
+                        x.text.count(' ') == 2, lambda x: len(x.text) <= 50))
 async def save_contact(message: Message, state: FSMContext):
     await message.answer(text=NEW_COMMAND['number'])
     await state.update_data(contact=message.text)

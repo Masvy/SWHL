@@ -31,7 +31,7 @@ async def start_new_player(update: types.Update, state: FSMContext):
 @player_router.message(StateFilter(NewPlayer.full_name),
                        and_f(lambda x: x.text.replace(' ', 'a').isalpha(),
                        lambda x: x.text.count(' ') == 1 or
-                       x.text.count(' ') == 2))
+                       x.text.count(' ') == 2, lambda x: len(x.text) <= 50))
 async def save_full_name(message: Message, state: FSMContext):
     await message.answer(text=NEW_PLAYER['birthday'])
     await state.update_data(full_name=message.text)
