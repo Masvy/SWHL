@@ -1,27 +1,30 @@
-# import subprocess
-
-# import imgkit
 # import requests
 # import pandas as pd
+#
 # from pretty_html_table import build_table
-
-
+# import imgkit
+#
+# import subprocess
+#
+#
 # def SWHL_sniper():
-#     url = "https://swhl.ru/tournament/1033299/stats?common=1"
+#     url = "https://swhl.ru/tournament/1033299/stats/best-players?common=1"
 #     response = requests.get(url)
 #     df_list = pd.read_html(response.text)
-
+#
 #     return df_list[0]
-
-
-# html_table = build_table(SWHL_sniper(), 'blue_dark',
-#                          text_align='left', font_size='13px', padding='3px')
-
-# imgkit.from_string(html_table, "tgbot/pictures/sniper.png", options={
-#                    'format': 'png', 'encoding': "UTF-8"})
-
-# subprocess.Popen(
-#     ["xdg-open", "tgbot/pictures/sniper.png"])
+#
+#
+# html_table = build_table(SWHL_sniper(), 'blue_dark', text_align='left', font_size='25px', padding='1px')
+#
+# con = imgkit.config(wkhtmltoimage='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltoimage.exe')
+# imgkit.from_string(html_table, 'best.png', config=con)
+#
+# imgkit.from_string(html_table, "best.png")
+#
+# # картинку при необходимости подрезать
+#
+# subprocess.Popen( "best.png", shell=True)
 
 
 # def SWHL_assists():

@@ -145,3 +145,9 @@ async def show_teams(callback: CallbackQuery):
     photo = FSInputFile(
         '/home/nikita/Рабочий стол/SWHL/tgbot/pictures/teams.png')
     await callback.message.answer_photo(photo)
+
+
+@start_router.message(F.photo)
+async def photo_id(msg: Message):
+    file_id = msg.photo[0].file_id
+    await msg.answer(file_id)
